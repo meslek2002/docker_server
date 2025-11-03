@@ -1,17 +1,17 @@
 # configured aws provider with proper credentials
 provider "aws" {
   region = "us-east-1"
-  profile= "yusuf"
+  profile= "meslek2002"
 }
 
 # Create a remote backend for your terraform 
 terraform {
   backend "s3" {
-    bucket = "austinobioma-docker-tfstate"
+    bucket = "meslek2002-docker-tfstate"
     dynamodb_table = "app-state"
     key    = "LockID"
     region = "us-east-1"
-    profile = "austinobioma-realcloud"
+    profile = "meslek2002"
   }
 }
 
@@ -116,7 +116,7 @@ resource "aws_instance" "ec2_instance1" {
   instance_type          = "t2.micro"
   subnet_id              = aws_default_subnet.default_az1.id
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
-  key_name               = "Feb-Class"
+  key_name               = "meslek2002"
   user_data            = "${file("docker-install.sh")}"
 
   tags = {
@@ -126,5 +126,5 @@ resource "aws_instance" "ec2_instance1" {
 
 # print the url of the docker server
 output "website_url" {
-  value     = join ("", ["http://", aws_instance.ec2_instance1.public_dns, ":", "8080"])
+  value     = join ("", ["http://", aws_instance.ec2_instance1.public_ip"])
 }
